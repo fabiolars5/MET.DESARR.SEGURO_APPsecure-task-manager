@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 420px; margin: 0 auto;">
+
+  <div style="text-align:center; margin-bottom: 24px;">
+    <h2 style="margin-bottom:6px;">Bienvenido 👋</h2>
+    <p class="small-text">Accede a tu gestor de tareas seguro</p>
+  </div>
+
+  <form method="post">
+
+    <!-- 🔐 CSRF CORRECTO -->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>Usuario</label>
+    <input 
+      name="username" 
+      required 
+      minlength="3" 
+      placeholder="Introduce tu usuario"
+      autocomplete="username"
+    >
+
+    <label>Contraseña</label>
+    <input 
+      name="password" 
+      type="password" 
+      required 
+      minlength="8" 
+      placeholder="Introduce tu contraseña"
+      autocomplete="current-password"
+    >
+
+    <button type="submit" style="width:100%; margin-top: 6px;">
+      Entrar
+    </button>
+
+  </form>
+
+  <div style="text-align:center; margin-top: 18px;">
+    <p class="small-text">
+      ¿No tienes cuenta?
+      <a href="{{ url_for('register') }}">Regístrate</a>
+    </p>
+  </div>
+
+  <div style="margin-top: 24px; padding: 12px; border-radius: 12px; background: #f1f5f9;">
+    <p class="small-text" style="margin:0;">
+      🔐 Tus credenciales están protegidas mediante autenticación segura.
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 420px; margin: 0 auto;">
+
+  <div style="text-align:center; margin-bottom: 24px;">
+    <h2 style="margin-bottom:6px;">Crear cuenta</h2>
+    <p class="small-text">Empieza a gestionar tus tareas de forma segura</p>
+  </div>
+
+  <form method="post">
+
+    <!-- 🔐 CSRF -->
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>Usuario</label>
+    <input 
+      name="username" 
+      required 
+      minlength="3" 
+      maxlength="30"
+      placeholder="Elige un nombre de usuario"
+      autocomplete="username"
+      pattern="[a-zA-Z0-9_.-]+"
+      title="Solo letras, números, puntos, guiones y guiones bajos"
+    >
+
+    <label>Contraseña</label>
+    <input 
+      name="password" 
+      type="password" 
+      required 
+      minlength="8"
+      placeholder="Crea una contraseña segura"
+      autocomplete="new-password"
+    >
+
+    <!-- 🔐 NUEVO CAMPO -->
+    <label>Confirmar contraseña</label>
+    <input 
+      name="confirm_password" 
+      type="password" 
+      required 
+      minlength="8"
+      placeholder="Repite la contraseña"
+      autocomplete="new-password"
+    >
+
+    <p class="small-text">
+      Importante: mínimo 8 caracteres, una mayúscula, un número y un símbolo.
+    </p>
+
+    <button type="submit" style="width:100%; margin-top: 6px;">
+      Crear cuenta
+    </button>
+
+  </form>
+
+  <div style="text-align:center; margin-top: 18px;">
+    <p class="small-text">
+      ¿Ya tienes cuenta?
+      <a href="{{ url_for('login') }}">Inicia sesión</a>
+    </p>
+  </div>
+
+  <div style="margin-top: 24px; padding: 14px; border-radius: 12px; background: #f1f5f9; border: 1px solid #e2e8f0;">
+    <p class="small-text" style="margin:0;">
+      🔐 Tu contraseña se almacena usando <strong>hash seguro (PBKDF2)</strong>.
+    </p>
+    <p class="small-text" style="margin-top:6px;">
+      🛡️ Protección contra ataques comunes (SQL Injection, CSRF, fuerza bruta).
+    </p>
+  </div>
+
+</div>
+
+{% endblock %}

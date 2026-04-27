@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="top-bar">
+  <div>
+    <p class="small-text">Bienvenido de nuevo</p>
+    <h2>Panel de tareas</h2>
+    <p class="small-text">
+      Sesión iniciada como <strong>{{ session.username }}</strong>
+    </p>
+  </div>
+
+  <form method="post" action="{{ url_for('logout') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit" class="logout">Cerrar sesión</button>
+  </form>
+</div>
+
+<div class="task" style="background: linear-gradient(135deg, #eff6ff, #f8fafc); border: 1px solid #dbeafe;">
+  <h3>Crear nueva tarea</h3>
+  <p class="small-text">Organiza tus tareas de forma sencilla y segura.</p>
+
+  <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>Título</label>
+    <input 
+      name="title" 
+      required 
+      maxlength="100" 
+      placeholder="Ejemplo: estudiar S-SDLC"
+      autocomplete="off"
+    >
+
+    <label>Descripción</label>
+    <textarea 
+      name="description" 
+      maxlength="500"
+      placeholder="Añade una descripción opcional"
+    ></textarea>
+
+    <p class="small-text">
+      El título tiene un máximo de 100 caracteres y la descripción un máximo de 500.
+    </p>
+
+    <button type="submit" style="width:100%;">Guardar tarea</button>
+  </form>
+</div>
+
+<div class="top-bar" style="margin-top: 28px;">
+  <div>
+    <h3>Mis tareas</h3>
+    <p class="small-text">Listado de tareas asociadas únicamente a tu usuario.</p>
+  </div>
+</div>
+
+{% for task in tasks %}
+  <div class="task" style="position: relative;">
+    <div style="display:flex; justify-content:space-between; gap:16px; align-items:flex-start;">
+      <div>
+        <h3 class="{{ 'done' if task.done else '' }}" style="margin-bottom: 6px;">
+          {{ task.title }}
+        </h3>
+
+        {% if task.done %}
+          <span class="badge badge-done">Completada</span>
+        {% else %}
+          <span class="badge badge-pending">Pendiente</span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if task.description %}
+      <p style="margin-top: 14px;">{{ task.description }}</p>
+    {% else %}
+      <p class="small-text" style="margin-top: 14px;">Sin descripción.</p>
+    {% endif %}
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top: 14px;">
+      <form method="post" action="{{ url_for('toggle_task', task_id=task.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="secondary">
+          {{ 'Marcar pendiente' if task.done else 'Marcar completada' }}
+        </button>
+      </form>
+
+      <form method="post" action="{{ url_for('delete_task', task_id=task.id) }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button type="submit" class="danger">
+          Eliminar
+        </button>
+      </form>
+    </div>
+  </div>
+{% else %}
+  <div class="task" style="text-align:center; padding: 28px;">
+    <h3>Aún no hay tareas</h3>
+    <p class="small-text">Crea tu primera tarea usando el formulario superior.</p>
+  </div>
+{% endfor %}
+
+{% endblock %}
