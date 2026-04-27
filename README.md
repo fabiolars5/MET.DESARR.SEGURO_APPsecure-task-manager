@@ -57,5 +57,28 @@ docker compose down
 
 \---
 
+### Estructura de Carpetas
+
+.github/workflows/security.yml: Es el corazón de tu Pipeline de CI/CD. Aquí se definen las acciones automáticas que se ejecutan cada vez que subes código (como tests de seguridad, escaneo de vulnerabilidades o linters).
+
+app/: Contiene el código fuente de la aplicación.
+
+app.py: El archivo principal (backend) de la aplicación, probablemente usando Flask o un framework similar.
+
+templates/: Archivos HTML para la interfaz de usuario (login, registro, tareas).
+
+requirements.txt: Lista de librerías necesarias para que la app funcione.
+
+docs/: Documentación teórica.
+
+actividad1_memoria.md: Memoria técnica de la primera fase del proyecto.
+
+plan_actividades_posteriores.md: Hoja de ruta para implementar mejoras de seguridad futuras.
+
+tests/: Carpeta destinada a las pruebas automáticas para asegurar que el código no tiene errores antes de desplegarlo.
+
+Dockerfile y docker-compose.yml: Archivos de Contenerización. Permiten que la aplicación se ejecute en cualquier ordenador dentro de un contenedor aislado, mejorando la seguridad y la portabilidad.
+
+.gitignore: Archivo que le dice a Git qué archivos debe ignorar (como contraseñas, bases de datos locales o archivos temporales) para que no se suban por error al repositorio público.
 
 
